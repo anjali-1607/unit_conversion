@@ -13,6 +13,7 @@
   justify-content: space-around;
   align-items: center;
   margin: 12em;
+
   /* 
   display: grid;
   justify-content: center;
@@ -38,6 +39,7 @@
   justify-content: center;
   display: flex;
   color: antiquewhite;
+  gap: 450px;
 }
 
 .div3 {
@@ -49,4 +51,7 @@
   justify-content: center;
   display: flex;
   color: antiquewhite;
+}
+.drop_1 {
+  font-size: 80px;
 }
