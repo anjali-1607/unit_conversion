@@ -2,24 +2,35 @@ import React, { useState } from "react";
 import "./App.css";
 import "semantic-ui-css/semantic.min.css";
 import { Button, Dropdown, Input } from "semantic-ui-react";
+import axios from "axios";
 
 const options1 = [
-  { key: "kg", text: "kg", value: "kg" },
-  { key: "gm", text: "gm", value: "gm" },
-  { key: "Litre", text: "Litre", value: "Litre" },
-  { key: "ml", text: "ml", value: "ml" },
-  { key: "Km", text: "Km", value: "Km" },
+  { key: "Km", text: "Km", value: "km" },
   { key: "m", text: "m", value: "m" },
-  { key: "Cm", text: "Cm", value: "Cm" },
+  { key: "cm", text: "cm", value: "cm" },
+  { key: "mm", text: "mm", value: "mm" },
+  { key: "in", text: "in", value: "in" },
+  { key: "ft", text: "ft", value: "ft" },
+  { key: "ft-us", text: "ft-us", value: "ft-us" },
+  { key: "mi", text: "mi", value: "mi" },
+  { key: "yd", text: "yd", value: "yd" },
+  { key: "nm", text: "nm", value: "nm" },
+  { key: "μm", text: "μm", value: "μm" },
+  { key: "nMi", text: "nMi", value: "nMi" },
 ];
 const options2 = [
-  { key1: "kg", text1: "kg", value1: "kg" },
-  { key2: "gm", text2: "gm", value2: "gm" },
-  { key: "Litre", text: "Litre", value: "Litre" },
-  { key: "ml", text: "ml", value: "ml" },
-  { key: "Km", text: "Km", value: "Km" },
+  { key: "Km", text: "Km", value: "km" },
   { key: "m", text: "m", value: "m" },
-  { key: "Cm", text: "Cm", value: "Cm" },
+  { key: "cm", text: "cm", value: "cm" },
+  { key: "mm", text: "mm", value: "mm" },
+  { key: "in", text: "in", value: "in" },
+  { key: "ft", text: "ft", value: "ft" },
+  { key: "ft-us", text: "ft-us", value: "ft-us" },
+  { key: "mi", text: "mi", value: "mi" },
+  { key: "yd", text: "yd", value: "yd" },
+  { key: "nm", text: "nm", value: "nm" },
+  { key: "μm", text: "μm", value: "μm" },
+  { key: "nMi", text: "nMi", value: "nMi" },
 ];
 
 // const opr = () => {
@@ -28,6 +39,42 @@ const options2 = [
 // };
 
 export default function App() {
+  const [data, setdata] = useState("");
+  const textt = (num) => {
+    setdata({ ...data, value: num.target.value });
+    console.log(num.target.value);
+  };
+  console.log(data);
+
+  const from = (u, { value }) => {
+    console.log(value);
+    setdata({ ...data, from: value });
+  };
+  const to = (t, { value }) => {
+    console.log({ ...data, to: value });
+    setdata({ ...data, to: value });
+  };
+
+  const convert = async () => {
+    const options = {
+      // method: "GET",
+      // url: "https://measurement-unit-converter.p.rapidapi.com/length",
+      params: data,
+
+      headers: {
+        "X-RapidAPI-Key": "44fd12d7e9mshc97fba051aa42bbp1e55c5jsnc2dd769b5228",
+        "X-RapidAPI-Host": "measurement-unit-converter.p.rapidapi.com",
+      },
+    };
+    await axios
+      .get("https://measurement-unit-converter.p.rapidapi.com/length/", options)
+      .then((res) => {
+        console.log(res.data);
+        setdata(res.data.result);
+        console.log("helllo", setdata);
+      });
+  };
+
   return (
     <>
       <div className="main_div">
@@ -36,7 +83,10 @@ export default function App() {
           <h2>Unit Converter</h2>
         </nav>
         <div className="ans_div">
-          <Input size="massive" />
+          <Input
+            size="massive"
+            // setdata (data)
+          />
         </div>
         <div className="from_div">
           <label>
@@ -45,8 +95,9 @@ export default function App() {
         </div>
         <div className="unit_div1">
           <Input
+            onChange={textt}
             size="large"
-            label={<Dropdown options={options1} />}
+            label={<Dropdown options={options1} onChange={from} />}
             labelPosition="right"
           />
         </div>
@@ -59,7 +110,7 @@ export default function App() {
           <Input
             type="integer"
             size="large"
-            label={<Dropdown options={options2} />}
+            label={<Dropdown options={options2} onChange={to} />}
             labelPosition="right"
           />
         </div>
@@ -67,7 +118,7 @@ export default function App() {
           <Input size="huge" placeholder="Type..." />
         </div> */}
         <div className="convert_div">
-          <button className="btn_convert">
+          <button className="btn_convert" onClick={convert}>
             <h3> Convert</h3>
           </button>
         </div>
