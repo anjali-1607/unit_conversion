@@ -40,6 +40,7 @@ const options2 = [
 
 export default function App() {
   const [data, setdata] = useState("");
+  const [op, setOp] = useState("");
   const textt = (num) => {
     setdata({ ...data, value: num.target.value });
     console.log(num.target.value);
@@ -70,8 +71,8 @@ export default function App() {
       .get("https://measurement-unit-converter.p.rapidapi.com/length/", options)
       .then((res) => {
         console.log(res.data);
-        setdata(res.data.result);
-        console.log("helllo", setdata);
+        setOp(res.data.result);
+        // console.log("helllo", setdata);
       });
   };
 
@@ -80,12 +81,13 @@ export default function App() {
       <div className="main_div">
         <nav className="navbar">
           {" "}
-          <h2>Unit Converter</h2>
+          <h2>Unit Length Converter</h2>
         </nav>
         <div className="ans_div">
           <Input
             size="massive"
-            // setdata (data)
+            value={op}
+            // onChange={(data) => setAns(data.target.value)}
           />
         </div>
         <div className="from_div">
@@ -110,6 +112,8 @@ export default function App() {
           <Input
             type="integer"
             size="large"
+            value={op}
+            readOnly
             label={<Dropdown options={options2} onChange={to} />}
             labelPosition="right"
           />
